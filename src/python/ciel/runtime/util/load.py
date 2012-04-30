@@ -197,12 +197,22 @@ def do_uploads(master, args, size=None, count=1, replication=1, delimiter=None, 
     name_prefix = create_name_prefix(name)
     
     output_references = []
+    inputs = []
     
+    for folder_name in args:
+        
+        if not os.path.isfile(folder_name):
+            for subdir, dirs, files in os.walk(folder_name):
+                for one_file in files:
+                    inputs.append(os.path.join(folder_name, one_file)) 
+        else:
+            inputs.append(folder_name);
+
     # Upload the data in extents.
     if not do_urls:
         
-        if len(args) == 1:
-            input_filename = args[0] 
+        if len(inputs) == 1:
+            input_filename = inputs[0] 
             extent_list = build_extent_list(input_filename, size, count, delimiter)
         
             with open(input_filename, 'rb') as input_file:
@@ -216,7 +226,7 @@ def do_uploads(master, args, size=None, count=1, replication=1, delimiter=None, 
                     
         else:
             
-            for i, input_filename in enumerate(args):
+            for i, input_filename in enumerate(inputs):
                 with open(input_filename, 'rb') as input_file:
                     targets = select_targets(workers, replication)
                     block_name = make_block_id(name_prefix, i)
@@ -230,7 +240,7 @@ def do_uploads(master, args, size=None, count=1, replication=1, delimiter=None, 
         
         if urllist is None:
             urls = []
-            for filename in args:
+            for filename in inputs:
                 with open(filename, 'r') as f:
                     for line in f:
                         urls.append(line.strip())
@@ -327,6 +337,7 @@ def do_uploads(master, args, size=None, count=1, replication=1, delimiter=None, 
                     target, = select_targets(workers, 1)
                     upload_sessions.append((target, ref, index))
                     
+    print 'Uploaded %d files' % (len(inputs))        
     # Upload the index object.
     index = simplejson.dumps(output_references, cls=SWReferenceJSONEncoder)
     block_name = '%s:index' % name_prefix
