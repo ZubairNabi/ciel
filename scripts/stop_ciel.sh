@@ -9,14 +9,14 @@ USERNAME=root
 while read MASTER
 do
       echo "Stopping CIEL master on $MASTER"
-      ssh -n $USERNAME@$MASTER './scripts/stop_ciel_master.sh'
+      ssh -n $USERNAME@$MASTER '~/ciel/scripts/stop_ciel_master.sh'
 
 done < $FILENAME_MASTER
 
 while read MACHINE
 do
       echo "Stopping CIEL worker on $MACHINE"
-      ssh -n $USERNAME@$MACHINE './scripts/stop_ciel_worker.sh'
+      ssh -n $USERNAME@$MACHINE '~/ciel/scripts/stop_ciel_worker.sh'
 
 done < $FILENAME_WORKERS
 

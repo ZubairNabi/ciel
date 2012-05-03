@@ -9,13 +9,13 @@ USERNAME=root
 while read MASTER
 do
       echo "Starting CIEL master on $MASTER"
-      ssh -n $USERNAME@$MASTER './scripts/start_ciel_master.sh'
+      ssh -n $USERNAME@$MASTER '~/ciel/scripts/start_ciel_master.sh'
 
 done < $FILENAME_MASTER
 
 while read MACHINE
 do
       echo "Starting CIEL worker on $MACHINE"
-      ssh -n $USERNAME@$MACHINE './scripts/start_ciel_worker.sh'
+      ssh -n $USERNAME@$MACHINE '~/ciel/scripts/start_ciel_worker.sh'
 
 done < $FILENAME_WORKERS
