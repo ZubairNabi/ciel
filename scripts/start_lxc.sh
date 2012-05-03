@@ -9,5 +9,6 @@ while read MACHINE
 do
       echo "Starting container $MACHINE"
       lxc-start -n $MACHINE -f /home/lxc/$MACHINE/config -d
+      sleep 1
 
 done < $FILENAME

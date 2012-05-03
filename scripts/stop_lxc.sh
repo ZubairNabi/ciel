@@ -9,5 +9,6 @@ while read MACHINE
 do
       echo "Stopping container $MACHINE"
       lxc-stop -n $MACHINE
+      sleep 1
 
 done < $FILENAME
