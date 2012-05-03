@@ -8,7 +8,7 @@ JOBID=$2
 CIEL_DIR=/root/ciel_data
 LOG_DIR=$CIEL_DIR/logs
 JOB_LOG_DIR=$CIEL_DIR/jobs
-JOB_FILENAME=$JODID.log
+JOB_FILENAME=$JOBID.log
 
 while read MACHINE
 do
