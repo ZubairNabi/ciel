@@ -24,6 +24,8 @@ from cherrypy.process import plugins
 from Queue import Queue, Empty
 from ciel.runtime.plugins import THREAD_TERMINATOR
 import threading
+
+PING_TIMEOUT = 30
     
 class PingerPoker:
     pass
@@ -50,7 +52,7 @@ class Pinger(plugins.SimplePlugin):
     the worker.
     '''
     
-    def __init__(self, bus, master_proxy, status_provider=None, ping_timeout=5):
+    def __init__(self, bus, master_proxy, status_provider=None, ping_timeout=PING_TIMEOUT):
         plugins.SimplePlugin.__init__(self, bus)
         self.queue = Queue()
         self.non_urgent_queue = Queue()
