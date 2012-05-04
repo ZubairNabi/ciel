@@ -24,6 +24,8 @@ import threading
 import uuid
 from urlparse import urlparse
 
+TASK_TIMEOUT = 60
+
 class FeatureQueues:
     def __init__(self):
         self.queues = {}
@@ -280,7 +282,7 @@ class WorkerPool:
             for worker in self.workers.values():
                 if worker.failed:
                     continue
-                if (worker.last_ping + datetime.timedelta(seconds=10)) < datetime.datetime.now():
+                if (worker.last_ping + datetime.timedelta(seconds=TASK_TIMEOUT)) < datetime.datetime.now():
                     failed_worker = worker
                     self.deferred_worker.do_deferred(lambda: self.investigate_worker_failure(failed_worker))
                     
