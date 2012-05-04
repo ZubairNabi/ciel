@@ -10,4 +10,4 @@ JJ_DIR=$CIEL_DIR/job_journal
 
 HOST_NAME=`cat /etc/hostname`
 
-ciel master --pidfile="$PID_DIR/$HOST_NAME" --daemonise --logfile="$LOG_DIR/$HOST_NAME.log" --blockstore="$BS_DIR" --journaldir="$JJ_DIR" --task-log-root="$LOG_DIR" 
+ciel master --pidfile="$PID_DIR/$HOST_NAME" --daemonise --logfile="$LOG_DIR/$HOST_NAME.log" --blockstore="$BS_DIR"
