@@ -5,7 +5,8 @@
 FILENAME=$1
 USERNAME=root
 
-CIEL_DIR=/root/ciel_data
+#CIEL_DIR=/root/ciel_data
+CIEL_DIR=/mnt/ciel_data
 LOG_DIR=$CIEL_DIR/logs
 
 while read MACHINE
