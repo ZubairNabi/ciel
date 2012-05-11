@@ -2,7 +2,8 @@
 #SCRIPT:  stop_ciel_master.sh
 #PURPOSE: Stop ciel master on machine
 
-CIEL_DIR=/root/ciel_data
+CIEL_DIR=/mnt/ciel_data
+#CIEL_DIR=/root/ciel_data
 PID_DIR=$CIEL_DIR/pid
 
 HOST_NAME=`cat /etc/hostname`
