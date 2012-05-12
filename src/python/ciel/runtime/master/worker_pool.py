@@ -24,7 +24,7 @@ import threading
 import uuid
 from urlparse import urlparse
 
-TASK_TIMEOUT = 120
+TASK_TIMEOUT = 20
 
 class FeatureQueues:
     def __init__(self):

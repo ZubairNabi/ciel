@@ -25,7 +25,7 @@ from Queue import Queue, Empty
 from ciel.runtime.plugins import THREAD_TERMINATOR
 import threading
 
-PING_TIMEOUT = 30
+PING_TIMEOUT = 5
     
 class PingerPoker:
     pass
