@@ -32,8 +32,8 @@ class pycURLContext:
         self.curl_ctx = pycurl.Curl()
         self.curl_ctx.setopt(pycurl.FOLLOWLOCATION, 1)
         self.curl_ctx.setopt(pycurl.MAXREDIRS, 5)
-        self.curl_ctx.setopt(pycurl.CONNECTTIMEOUT, 30)
-        self.curl_ctx.setopt(pycurl.TIMEOUT, 300)
+        #self.curl_ctx.setopt(pycurl.CONNECTTIMEOUT, 30)
+        #self.curl_ctx.setopt(pycurl.TIMEOUT, 300)
         self.curl_ctx.setopt(pycurl.NOSIGNAL, 1)
         self.curl_ctx.setopt(pycurl.URL, str(url))
 
