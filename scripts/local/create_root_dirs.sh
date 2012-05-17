@@ -4,7 +4,7 @@
 
 FILENAME=$1
 
-ROOT_DIR=/mnt/ssd
+ROOT_DIR=/mnt/ssd/ssd
 
 while read MACHINE
 do

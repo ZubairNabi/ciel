@@ -5,7 +5,7 @@
 FILENAME=$1
 JOBID=$2
 
-ROOT_DIR=/mnt/ssd
+ROOT_DIR=/mnt/ssd/ssd
 JOB_FILENAME=$JOBID.log
 JOB_LOG_DIR=/root/zubair/jobs
 
