@@ -5,15 +5,15 @@
 FILENAME=$1
 USERNAME=root
 
-MOUNT_DIR=/mnt/vfs
-CIEL_DIR=/root/ciel_data
-BS_DIR=$CIEL_DIR/block_store
-BS_DATA_DIR=$BS_DIR/data
+ROOT_DIR=/mnt/ssd
 
 while read MACHINE
 do
+      CIEL_DIR=$ROOT_DIR/$MACHINE/ciel_data
+      BS_DIR=$CIEL_DIR/block_store
+      BS_DATA_DIR=$BS_DIR/data
       echo "Deleting block store data on container $MACHINE"
-      cd "$MOUNT_DIR$MACHINE$BS_DATA_DIR"
-      rm -f i * .*;  
+      rm -Rf $BS_DATA
+      mkdir $BS_DATA
 
 done < $FILENAME

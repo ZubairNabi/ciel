@@ -4,13 +4,13 @@
 
 FILENAME=$1
 
-MOUNT_DIR=/mnt/vfs
-CIEL_DIR=/root/ciel_data
-LOG_DIR=$CIEL_DIR/logs
+ROOT_DIR=/mnt/ssd
 
 while read MACHINE
 do
+      CIEL_DIR=$ROOT_DIR/$MACHINE/ciel_data
+      LOG_DIR=$CIEL_DIR/logs
       echo "Refreshing log of $MACHINE"
-      cat /dev/null > "$MOUNT_DIR$MACHINE$LOG_DIR/$MACHINE.log"
+      cat /dev/null > "$LOG_DIR/$MACHINE.log"
 
 done < $FILENAME
