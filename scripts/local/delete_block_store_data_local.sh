@@ -13,7 +13,7 @@ do
       BS_DIR=$CIEL_DIR/block_store
       BS_DATA_DIR=$BS_DIR/data
       echo "Deleting block store data on container $MACHINE"
-      rm -Rf $BS_DATA
-      mkdir $BS_DATA
+      rm -Rf $BS_DATA_DIR
+      mkdir $BS_DATA_DIR
 
 done < $FILENAME
