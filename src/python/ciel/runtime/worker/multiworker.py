@@ -261,7 +261,7 @@ class QueueManager:
         self.worker = worker
         #self._lock = threading.Lock()
         self._cond = {}
-        
+        self.is_running = False
         self.current_heads = {}
         for scheduling_class in worker.scheduling_classes.keys():
             self.current_heads[scheduling_class] = {}
