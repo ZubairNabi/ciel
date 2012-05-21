@@ -2,8 +2,8 @@
 #SCRIPT:  stop_ciel_worker.sh
 #PURPOSE: Stop ciel worker on each machine
 
-CIEL_DIR=/mnt/ciel_data
-#CIEL_DIR=/root/ciel_data
+#CIEL_DIR=/mnt/ciel_data
+CIEL_DIR=/root/ciel_data
 PID_DIR=$CIEL_DIR/pid
 
 HOST_NAME=`cat /etc/hostname`
