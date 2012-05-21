@@ -356,7 +356,7 @@ class WorkerThreadPool:
         self.threads = []
         
     def subscribe(self):
-        self.bus.subscribe('start', self.start)
+        self.bus.subscribe('start', self.start, 75)
         # Must run after QueueManager.stop()
         self.bus.subscribe('stop', self.stop ,50)
             
