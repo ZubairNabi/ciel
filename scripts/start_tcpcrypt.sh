@@ -9,6 +9,7 @@ PIDFILE=/tmp/tcpcrypt.pid
 start_tcpcryptd() {
     LD_LIBRARY_PATH=lib/ $TCPCRYPTD $OPTS -p $DIVERT_PORT &
     echo $! > $PIDFILE
+    sleep 1
 }
 
 ee() {
