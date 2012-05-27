@@ -3,7 +3,7 @@
 PORT=${1:-80}
 
 TCPCRYPTD=~/tcpcrypt/user/src/tcpcryptd
-DIVERT_PORT=666
+DIVERT_PORT=$2
 PIDFILE=/tmp/tcpcrypt.pid
 
 start_tcpcryptd() {

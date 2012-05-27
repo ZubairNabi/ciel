@@ -2,7 +2,7 @@
 
 PORT=${1:-80}
 
-DIVERT_PORT=666
+DIVERT_PORT=$2
 PIDFILE=/tmp/tcpcrypt.pid
 
 stop_tcpcryptd() {
