@@ -1,9 +1,8 @@
 #!/bin/sh
 
-OSNAME=`uname -s`
 PORT=${1:-80}
 
-TCPCRYPTD=`dirname $0`/src/tcpcryptd
+TCPCRYPTD=~/tcpcrypt/user/src/tcpcryptd
 DIVERT_PORT=666
 PIDFILE=/tmp/tcpcrypt.pid
 
