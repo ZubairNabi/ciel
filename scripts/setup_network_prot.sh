@@ -1,13 +1,14 @@
 #!/bin/bash
-#SCRIPT:  setup_network_mptcp.sh
+#SCRIPT:  setup_network_prot.sh
 #PURPOSE: Sets up the OVS based network for all containers
 
+PROT=$1
 
 echo rmmod bridge
 rmmod bridge
 
-echo ~/zubair/openvswitch-1.4.0/datapath/linux/openvswitch_mod.ko
-insmod ~/zubair/ovs_mptcp/openvswitch-1.4.0/datapath/linux/openvswitch_mod.ko
+echo ~/zubair/$PROT/openvswitch-1.4.0/datapath/linux/openvswitch_mod.ko
+insmod ~/zubair/$PROT/openvswitch-1.4.0/datapath/linux/openvswitch_mod.ko
 
 echo ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock --remote=db:Open_vSwitch,manager_options --pidfile --detach
 ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock --remote=db:Open_vSwitch,manager_options --pidfile --detach
@@ -18,8 +19,8 @@ ovs-vsctl --no-wait init
 echo ovs-vswitchd --pidfile --detach
 ovs-vswitchd --pidfile --detach
 
-echo insmod ~/zubair/ovs_mptcp/openvswitch-1.4.0/datapath/linux/brcompat_mod.ko
-insmod ~/zubair/ovs_mptcp/openvswitch-1.4.0/datapath/linux/brcompat_mod.ko
+echo insmod ~/zubair/$PROT/openvswitch-1.4.0/datapath/linux/brcompat_mod.ko
+insmod ~/zubair/$PROT/openvswitch-1.4.0/datapath/linux/brcompat_mod.ko
 
 echo ovs-brcompatd --pidfile --detach
 ovs-brcompatd --pidfile --detach
@@ -50,12 +51,3 @@ iptables --table filter --insert FORWARD --destination 192.168.1.0/255.255.255.0
 
 echo iptables --table nat --insert POSTROUTING --source 192.168.1.0/255.255.255.0 ! --destination 192.168.1.0/255.255.255.0 --jump MASQUERADE
 iptables --table nat --insert POSTROUTING --source 192.168.1.0/255.255.255.0 ! --destination 192.168.1.0/255.255.255.0 --jump MASQUERADE
-
-echo "echo 512 > /proc/sys/net/ipv4/neigh/default/gc_thresh1"
-echo 512 > /proc/sys/net/ipv4/neigh/default/gc_thresh1
-
-echo "echo 2048 > /proc/sys/net/ipv4/neigh/default/gc_thresh2"
-echo 2048 > /proc/sys/net/ipv4/neigh/default/gc_thresh2
-
-echo "echo 4096 > /proc/sys/net/ipv4/neigh/default/gc_thresh3"
-echo 4096 > /proc/sys/net/ipv4/neigh/default/gc_thresh3
