@@ -128,7 +128,7 @@ fastcgi.server             = ( "/control/" =>
                                ( "cherrypy" =>
                                  (
                                    "socket" => "{ciel_socket}",
-                   "max-procs" => 2,
+                   "max-procs" => 1,
                    "check-local" => "disable",
                    "docroot" => "/",
                                  )
