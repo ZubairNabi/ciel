@@ -28,12 +28,3 @@ iptables --table filter --insert FORWARD --destination 192.168.1.0/255.255.255.0
 
 echo iptables --table nat --insert POSTROUTING --source 192.168.1.0/255.255.255.0 ! --destination 192.168.1.0/255.255.255.0 --jump MASQUERADE
 iptables --table nat --insert POSTROUTING --source 192.168.1.0/255.255.255.0 ! --destination 192.168.1.0/255.255.255.0 --jump MASQUERADE
-
-echo "echo 256 > /proc/sys/net/ipv4/neigh/default/gc_thresh1"
-echo 256 > /proc/sys/net/ipv4/neigh/default/gc_thresh1
-
-echo "echo 1024 > /proc/sys/net/ipv4/neigh/default/gc_thresh2"
-echo 1024 > /proc/sys/net/ipv4/neigh/default/gc_thresh2
-
-echo "echo 2048 > /proc/sys/net/ipv4/neigh/default/gc_thresh3"
-echo 2048 > /proc/sys/net/ipv4/neigh/default/gc_thresh3
