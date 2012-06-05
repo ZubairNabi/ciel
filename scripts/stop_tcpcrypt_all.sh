@@ -3,14 +3,16 @@
 #PURPOSE: Stop tcpcrypt on all machines
 
 FILENAME_MASTER=$1
-USERNAME=root
-PORT=32777
-CIEL_PORT=8001
+PORT=666
+CIEL_PORT=80
+
+
+echo "Stopping TCPcrypt daemon"
+sh ~/zubair/ciel/scripts/stop_tcpcrypt_host.sh $CIEL_PORT $PORT
 
 while read MASTER
 do
-      echo "Stopping TCPcrypt on $MASTER"
-      ssh -n $USERNAME@$MASTER "~/ciel/scripts/stop_tcpcrypt.sh $CIEL_PORT $PORT"
-      PORT=`expr $PORT + 1`
+      echo "Removing TCPcrypt rules on $MASTER"
+      ssh -n $MASTER "~/ciel/scripts/stop_tcpcrypt.sh $CIEL_PORT $PORT"
 
 done < $FILENAME_MASTER

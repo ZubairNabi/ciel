@@ -1,7 +1,16 @@
 #!/bin/sh
 
 PORT=$1
+
+TCPCRYPTD=/root/zubair/tcpcrypt/user/src/tcpcryptd
 DIVERT_PORT=$2
+PIDFILE=/tmp/tcpcrypt.pid
+
+start_tcpcryptd() {
+    LD_LIBRARY_PATH=lib/ $TCPCRYPTD $OPTS -p $DIVERT_PORT &
+    echo $! > $PIDFILE
+    sleep 1
+}
 
 ee() {
     echo $*
@@ -15,3 +24,4 @@ linux_set_iptables() {
 }
 
         linux_set_iptables
+        start_tcpcryptd
