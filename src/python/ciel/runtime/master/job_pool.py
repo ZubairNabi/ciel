@@ -56,7 +56,7 @@ RECORD_HEADER_STRUCT = struct.Struct('!cI')
 
 class Job:
     
-    def __init__(self, id, root_task, job_dir, state, job_pool, job_options, journal=True):
+    def __init__(self, id, root_task, job_dir, state, job_pool, job_options, journal=True, mc_flight_controller = None, mc_weight=0.0):
         self.id = id
         self.root_task = root_task
         self.job_dir = job_dir
@@ -78,6 +78,10 @@ class Job:
         self.journal = journal
 
         self.job_options = job_options
+        
+        self.mc_flight_controller = mc_flight_controller
+        
+        self.mc_weight = mc_weight
         
         try:
             self.journal = self.job_options['journal']
@@ -120,6 +124,11 @@ class Job:
         
         self.workers = {}
         
+    def set_mission_control_weight(self, weight):
+        self.mc_weight = weight
+        
+    def set_mission_control_flight_controller(self, flight_controller):
+        self.mc_flight_controller = flight_controller
         
     def restart_journalling(self):
         # Assume that the recovery process has truncated the file to the previous record boundary.
