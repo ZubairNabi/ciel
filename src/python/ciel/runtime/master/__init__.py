@@ -25,6 +25,7 @@ from ciel.runtime.master.worker_pool import WorkerPool
 from ciel.runtime.task_executor import TaskExecutorPlugin
 from ciel.runtime.pycurl_rpc import post_string
 from ciel.runtime.pycurl_thread import create_pycurl_thread
+from ciel.runtime.master.mission_controller import MissionController
 import cherrypy
 import ciel
 import logging
@@ -56,6 +57,9 @@ def master_main(options):
     job_pool.subscribe()
     
     worker_pool.job_pool = job_pool
+    
+    mission_controller = MissionController(ciel.engine, job_pool)
+    mission_controller.subscribe()
 
     backup_sender = BackupSender(cherrypy.engine)
     backup_sender.subscribe()
