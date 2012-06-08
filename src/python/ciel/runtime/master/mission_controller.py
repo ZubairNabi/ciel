@@ -19,11 +19,12 @@ import logging
 
 class MissionController:
 
-    def __init__(self, bus, job_pool):
+    def __init__(self, bus, job_pool, policy):
         self.job_pool = job_pool
         self.bus = bus
         self.is_running = False
         self.thread = None
+        self.policy = policy
         
     def get_all_job_ids(self):
         return self.job_pool.jobs.keys()
@@ -53,7 +54,7 @@ class MissionController:
         self.bus.unsubscribe("stop", self.stop)
         
     def start(self):
-        self.is_running = True
+        self.is_running = False
         self.thread = threading.Thread(target=self.thread_loop)
         self.thread.start()
               
@@ -63,7 +64,72 @@ class MissionController:
     def thread_loop(self):
         while self.is_running:
             self.print_all()
+            self.policy.update_weights(self.job_pool)
             threading.Event().wait(10)
+    
+    def set_policy(self, policy):
+        self.policy = policy
+            
+class MissionControllerPolicy:
+
+    def __init__(self, policy_type):
+        self.policy_type = policy_type
+    
+    def update_weights(self, job_pool):
+        pass
+
+class FIFOPolicy(MissionControllerPolicy):
+    
+    def __init__(self, policy_type):
+        MissionControllerPolicy.__init__(self, policy_type)
+    
+    def update_weights(self, job_pool):
+        jobs_time = {}
+        total_num_jobs = len(job_pool.jobs)
+
+        for job in self.job_pool.jobs.itervalues():
+            time, description = job.history[0]
+            jobs_time[time] = job.id
+        
+        total_sum = 0
+        for i in range(total_num_jobs):
+            total_sum = total_sum + i
+
+        times = jobs_time.items()
+        times.sort()
+        count = total_num_jobs
+        for k, v in times:
+            job_pool.jobs[v].mc_weight = (count/sum)
+            count = count - 1
+            
+class PerformancePolicy(MissionControllerPolicy):
+    
+    def __init__(self, policy_type):
+        MissionControllerPolicy.__init__(self, policy_type)
+    
+    def update_weights(self, job_pool):   
+        pass
+    
+class PriorityPolicy(MissionControllerPolicy):
+    
+    def __init__(self, policy_type):
+        MissionControllerPolicy.__init__(self, policy_type)
+        self.jobs_priority = {}
+    
+    def update_weights(self, job_pool):   
+        pass
+    
+class FlightController:
+    
+    def __init__(self):
+        self.protocol = 'TCP'
+        self.num_transfers = 5
+    
+    def set_protocol(self, protocol):
+        self.protocol = protocol
+        
+    def set_num_transfer(self, num_transfers):
+        self.num_transfers = num_transfers
         
 def main(my_args):
     mission_controller = MissionController()
