@@ -4,7 +4,7 @@
 
 FILENAME_MASTER=$1
 PORT=666
-CIEL_PORT=80
+CIEL_PORT=8001
 
 
 echo "Stopping TCPcrypt daemon"
