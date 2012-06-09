@@ -11,5 +11,7 @@ do
       echo "Setting rate $RATE and burst $3 for veth_$MACHINE"
       ovs-vsctl set Interface "veth_$MACHINE" ingress_policing_rate="$RATE"
       ovs-vsctl set Interface "veth_$MACHINE" ingress_policing_burst="$BURST"
+      ovs-vsctl set Interface "veth2_$MACHINE" ingress_policing_rate="$RATE"
+      ovs-vsctl set Interface "veth2_$MACHINE" ingress_policing_burst="$BURST"
 
 done < $FILENAME
