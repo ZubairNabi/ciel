@@ -152,7 +152,6 @@ class ResourceUsageLogger:
         for line in lines:
             line_data = line.split()
             list_tcp_data.append(line_data[1])
-            list_tcp_data.append(line_data[2])
         retval = process.wait()
         return list_tcp_data
     
