@@ -18,6 +18,7 @@ import threading
 import datetime
 import sys
 import subprocess
+import time
 
 class ResourceUsageLogger:
     
@@ -96,7 +97,8 @@ class ResourceUsageLogger:
             try:
                 self.write_current_stats()
                 self.write_tcp_data()
-                threading.Event().wait(1)
+                #threading.Event().wait(1)
+                time.sleep(0.125)
             except KeyboardInterrupt:
                 return
         
