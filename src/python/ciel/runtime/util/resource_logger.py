@@ -17,11 +17,13 @@ import os
 import threading
 import datetime
 import sys
+import subprocess
 
 class ResourceUsageLogger:
     
     def __init__(self, log_file_path, log_id):
         log_file_name = 'resources.csv'
+        tcp_log_file_name = 'tcp.csv'
         resource_dir = os.path.join(log_file_path, log_id)
         try:
             os.mkdir(resource_dir)
@@ -29,6 +31,9 @@ class ResourceUsageLogger:
             resource_dir = log_file_path
         self.log_file = os.path.join(resource_dir, log_file_name)
         self.csv_writer = csv.writer(open(self.log_file, 'wba'), delimiter =',',
+                                     quotechar='|', quoting = csv.QUOTE_MINIMAL) 
+        self.tcp_log_file = os.path.join(resource_dir, tcp_log_file_name)
+        self.tcp_csv_writer = csv.writer(open(self.tcp_log_file, 'wba'), delimiter =',',
                                      quotechar='|', quoting = csv.QUOTE_MINIMAL) 
         self.previous_stats = self.get_current_stats()
         self.write_first_row()
@@ -90,6 +95,7 @@ class ResourceUsageLogger:
         while True:
             try:
                 self.write_current_stats()
+                self.write_tcp_data()
                 threading.Event().wait(1)
             except KeyboardInterrupt:
                 return
@@ -136,10 +142,30 @@ class ResourceUsageLogger:
                     del cpu_data[0]
                     dict_cpus[cpu_name] = map(int, cpu_data)                
         return dict_cpus
+    
+    def get_tcp_q_size(self):
+        list_tcp_data = []
+        process = subprocess.Popen('netstat --inet -n', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        lines = process.stdout.readlines()
+        del lines[0]
+        del lines[0]
+        for line in lines:
+            line_data = line.split()
+            list_tcp_data.append(line_data[1])
+            list_tcp_data.append(line_data[2])
+        retval = process.wait()
+        return list_tcp_data
+    
+    def write_tcp_data(self):
+        current_tcp_data = self.get_tcp_q_size()
+        current_tcp_data.insert(0, datetime.datetime.now())
+        self.tcp_csv_writer.writerow(current_tcp_data)
+     
 
 def main(my_args):
     resource_usage_logger = ResourceUsageLogger(my_args[0], my_args[1])
     resource_usage_logger.thread_loop()
+
      
 if __name__ == '__main__':
     main(sys.argv[1:])    
