@@ -118,12 +118,25 @@ class PriorityPolicy(MissionControllerPolicy):
     
     def update_weights(self, job_pool):   
         pass
+
+class FairPolicy(MissionControllerPolicy):
+    
+    def __init__(self, policy_type):
+        MissionControllerPolicy.__init__(self, policy_type)
+    
+    def update_weights(self, job_pool):   
+        total_num_jobs = len(job_pool.jobs)
+        equal_share = 1/total_num_jobs
+
+        for job in self.job_pool.jobs.itervalues():
+            job.mc_weight = equal_share
     
 class FlightController:
     
     def __init__(self):
         self.protocol = 'TCP'
         self.num_transfers = 5
+        self.protocol_parameters = []
     
     def set_protocol(self, protocol):
         self.protocol = protocol
