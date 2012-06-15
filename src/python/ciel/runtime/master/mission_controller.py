@@ -25,6 +25,7 @@ class MissionController:
         self.is_running = False
         self.thread = None
         self.policy = policy
+        self.init_isis2('/root/ciel/lib/Isis.dll')
         
     def get_all_job_ids(self):
         return self.job_pool.jobs.keys()
@@ -63,12 +64,19 @@ class MissionController:
         
     def thread_loop(self):
         while self.is_running:
-            self.print_all()
+            #self.print_all()
             self.policy.update_weights(self.job_pool)
-            threading.Event().wait(10)
+            threading.Event().wait(1)
     
     def set_policy(self, policy):
         self.policy = policy
+        
+    def init_isis2(self, isis2_lib_path):
+        import clr
+        clr.AddReferenceToFileAndPath(isis2_lib_path)
+        import Isis
+        from Isis import *
+        IsisSystem.Start()
             
 class MissionControllerPolicy:
 
