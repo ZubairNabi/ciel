@@ -16,6 +16,7 @@ import threading
 import sys
 import ciel
 import logging
+import collections
 
 class MissionController:
 
@@ -66,11 +67,26 @@ class MissionController:
         while self.is_running:
             #self.print_all()
             self.policy.update_weights(self.job_pool)
+            self.mark_stage_type()
             threading.Event().wait(1)
     
     def set_policy(self, policy):
         self.policy = policy
         
+    def mark_stage_type(self):
+        for job in self.job_pool.jobs.itervalues():
+            ciel.log("Job ID: %s" % job.id, "MissionController", logging.INFO)
+            task_queue = collections.deque()
+            
+            for task in job.task_graph.tasks.itervalues():
+                task_queue.append(task)
+                
+            while len(task_queue) > 0:
+                task = task_queue.popleft()
+                
+                for local_id, ref in task.dependencies.items():
+                    pass
+                
     def init_isis2(self, isis2_lib_path):
         import clr
         clr.AddReferenceToFileAndPath(isis2_lib_path)
