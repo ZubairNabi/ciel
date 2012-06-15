@@ -20,6 +20,7 @@ from ciel.runtime.block_store import BlockStore
 from ciel.runtime.worker.worker_view import WorkerRoot
 from ciel.runtime.worker.pinger import Pinger
 from ciel.runtime.file_watcher import create_watcher_thread
+from ciel.runtime.worker.throttle_controller import ThrottleController
 from cherrypy.process import plugins
 import logging
 import tempfile
@@ -106,7 +107,10 @@ class Worker(plugins.SimplePlugin):
         self.event_log = []
         self.log_lock = Lock()
         self.log_condition = Condition(self.log_lock)
-
+        
+        throttle_controller = ThrottleController(ciel.engine, self.process_pool)
+        throttle_controller.subscribe()
+    
         self.cherrypy_conf = {}
 
         cherrypy.config.update({"server.thread_pool" : 20})
