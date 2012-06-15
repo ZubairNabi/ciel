@@ -131,8 +131,9 @@ class PerformancePolicy(MissionControllerPolicy):
     def __init__(self, policy_type):
         MissionControllerPolicy.__init__(self, policy_type)
     
-    def update_weights(self, job_pool):   
-        pass
+    def update_weights(self, job_pool):  
+        for job in self.job_pool.jobs.itervalues(): 
+            pass
     
 class PriorityPolicy(MissionControllerPolicy):
     
