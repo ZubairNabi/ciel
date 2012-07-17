@@ -16,6 +16,7 @@ import threading
 import sys
 import ciel
 import logging
+import collections
 
 class MissionController:
 
@@ -25,6 +26,7 @@ class MissionController:
         self.is_running = False
         self.thread = None
         self.policy = policy
+        self.init_isis2('/root/ciel/lib/Isis.dll')
         
     def get_all_job_ids(self):
         return self.job_pool.jobs.keys()
@@ -63,12 +65,34 @@ class MissionController:
         
     def thread_loop(self):
         while self.is_running:
-            self.print_all()
+            #self.print_all()
             self.policy.update_weights(self.job_pool)
-            threading.Event().wait(10)
+            self.mark_stage_type()
+            threading.Event().wait(1)
     
     def set_policy(self, policy):
         self.policy = policy
+        
+    def mark_stage_type(self):
+        for job in self.job_pool.jobs.itervalues():
+            ciel.log("Job ID: %s" % job.id, "MissionController", logging.INFO)
+            task_queue = collections.deque()
+            
+            for task in job.task_graph.tasks.itervalues():
+                task_queue.append(task)
+                
+            while len(task_queue) > 0:
+                task = task_queue.popleft()
+                
+                for local_id, ref in task.dependencies.items():
+                    pass
+                
+    def init_isis2(self, isis2_lib_path):
+        import clr
+        clr.AddReferenceToFileAndPath(isis2_lib_path)
+        import Isis
+        from Isis import *
+        IsisSystem.Start()
             
 class MissionControllerPolicy:
 
@@ -107,8 +131,9 @@ class PerformancePolicy(MissionControllerPolicy):
     def __init__(self, policy_type):
         MissionControllerPolicy.__init__(self, policy_type)
     
-    def update_weights(self, job_pool):   
-        pass
+    def update_weights(self, job_pool):  
+        for job in self.job_pool.jobs.itervalues(): 
+            pass
     
 class PriorityPolicy(MissionControllerPolicy):
     
@@ -118,12 +143,25 @@ class PriorityPolicy(MissionControllerPolicy):
     
     def update_weights(self, job_pool):   
         pass
+
+class FairPolicy(MissionControllerPolicy):
+    
+    def __init__(self, policy_type):
+        MissionControllerPolicy.__init__(self, policy_type)
+    
+    def update_weights(self, job_pool):   
+        total_num_jobs = len(job_pool.jobs)
+        equal_share = 1/total_num_jobs
+
+        for job in self.job_pool.jobs.itervalues():
+            job.mc_weight = equal_share
     
 class FlightController:
     
     def __init__(self):
         self.protocol = 'TCP'
         self.num_transfers = 5
+        self.protocol_parameters = []
     
     def set_protocol(self, protocol):
         self.protocol = protocol
