@@ -4,9 +4,10 @@
 
 FILENAME=$1
 USERNAME=root
+MASTER=''
 
 #CIEL_DIR=/mnt/ciel_data
-CIEL_DIR=/root/ciel_data
+CIEL_DIR=/state/partition1/ciel_data
 LOG_DIR=$CIEL_DIR/logs
 PID_DIR=$CIEL_DIR/pid
 BS_DIR=$CIEL_DIR/block_store
@@ -16,7 +17,10 @@ TEMP_DIR=$CIEL_DIR/tmp
 
 while read MACHINE
 do
+      MASTER=$MACHINE
       echo "Creating folder structure for master on container $MACHINE"
       ssh -n $MACHINE "mkdir $CIEL_DIR; mkdir $LOG_DIR; mkdir $PID_DIR; mkdir $BS_DIR; mkdir $JJ_DIR; mkdir $JOB_LOGS_DIR; mkdir $TEMP_DIR"
 
-done < $FILENAME
+done < "$FILENAME"
+
+echo "$MASTER"
