@@ -6,7 +6,7 @@ FILENAME=$1
 JOBID=$2
 
 #CIEL_DIR=/mnt/ciel_data
-CIEL_DIR=/root/ciel_data
+CIEL_DIR=/state/partition1/ciel_data
 LOG_DIR=$CIEL_DIR/logs
 JOB_LOG_DIR=$CIEL_DIR/jobs
 JOB_FILENAME=$JOBID.log

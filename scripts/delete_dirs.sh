@@ -6,7 +6,7 @@ FILENAME=$1
 USERNAME=root
 
 #CIEL_DIR=/mnt/ciel_data
-CIEL_DIR=/root/ciel_data
+CIEL_DIR=/state/partition1/ciel_data
 
 while read MACHINE
 do
