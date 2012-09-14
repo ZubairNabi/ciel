@@ -6,7 +6,7 @@
 CIEL_DIR=/state/partition1/ciel_data
 PID_DIR=$CIEL_DIR/pid
 
-HOST_NAME=`cat /etc/hostname`
+HOST_NAME=$1
 
 PID=`cat $PID_DIR/$HOST_NAME`
 

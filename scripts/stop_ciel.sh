@@ -16,7 +16,7 @@ done < $FILENAME_MASTER
 while read MACHINE
 do
       echo "Stopping CIEL worker on $MACHINE"
-      ssh -n $USERNAME@$MACHINE '/state/partition1/ciel/scripts/stop_ciel_worker.sh'
+      ssh -n $USERNAME@$MACHINE "/state/partition1/ciel/scripts/stop_ciel_worker.sh $MACHINE"
 
 done < $FILENAME_WORKERS
 
