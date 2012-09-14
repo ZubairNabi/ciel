@@ -4,7 +4,7 @@
 
 FILENAME_MASTER=$1
 FILENAME_WORKERS=$2
-USERNAME=root
+USERNAME=ubuntu
 
 while read MASTER
 do

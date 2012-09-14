@@ -12,6 +12,6 @@ LOG_DIR=$CIEL_DIR/logs
 while read MACHINE
 do
       echo "Tailing log of $MACHINE"
-      ssh -n $MACHINE tail $LOG_DIR/$MACHINE.log
+      ssh -n $MACHINE tail $LOG_DIR/ip-$MACHINE.log
 
 done < $FILENAME

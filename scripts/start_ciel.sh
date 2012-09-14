@@ -4,7 +4,7 @@
 
 FILENAME_MASTER=$1
 FILENAME_WORKERS=$2
-USERNAME=root
+USERNAME=ubuntu
 MASTER_IP=''
 
 while read MASTER
@@ -18,6 +18,6 @@ done < $FILENAME_MASTER
 while read MACHINE
 do
       echo "Starting CIEL worker on $MACHINE"
-      ssh -n $USERNAME@$MACHINE "/state/partition1/ciel/scripts/start_ciel_worker.sh $MASTER_IP"
+      ssh -n $USERNAME@$MACHINE "/state/partition1/ciel/scripts/start_ciel_worker.sh $MASTER_IP $MACHINE"
 
 done < $FILENAME_WORKERS
